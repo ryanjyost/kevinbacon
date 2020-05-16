@@ -1,5 +1,6 @@
-var axios = require("axios");
-var txUrl = "http://localhost:7474/db/data/transaction/commit";
+const axios = require("axios");
+const txUrl = "http://localhost:7474/db/data/transaction/commit";
+const _ = require("lodash");
 
 const api = axios.create({
   baseURL: txUrl,
@@ -24,10 +25,22 @@ module.exports = async function (query, params) {
 
   if (!results) return null;
 
+  const allPaths = [];
+
   for (let item of results.data) {
     const { row } = item;
-    console.log(row);
+    for (let path of row) {
+      const singlePath = [];
+      for (let node of path) {
+        if (!_.isEmpty(node)) {
+          singlePath.push(node);
+          console.log(node);
+        }
+      }
+
+      allPaths.push(singlePath);
+    }
   }
 
-  return res;
+  return allPaths;
 };

@@ -67,7 +67,7 @@ CREATE TABLE name_basics(nconst text, primaryName text, birthYear text, deathYea
 \copy name_basics from '/Users/ryanjyost/Projects/kevinbacon/name.basics.tsv' with delimiter E'\t' null as ';'
 
 COPY (SELECT tconst, primaryTitle, label FROM title_basics WHERE titletype = 'movie') TO '/Users/ryanjyost/Projects/kevinbacon/movies.csv' DELIMITER ',';
-COPY (SELECT nconst, tconst, type FROM title_principals WHERE category = 'actor') TO '/Users/ryanjyost/Projects/kevinbacon/movie_actor.csv' DELIMITER ',';
+COPY (SELECT nconst, tconst, type FROM title_principals WHERE category = 'actor' OR category = 'actress') TO '/Users/ryanjyost/Projects/kevinbacon/movie_actor.csv' DELIMITER ',';
 COPY (SELECT nconst, primaryname, label FROM name_basics) TO '/Users/ryanjyost/Projects/kevinbacon/actors.csv' DELIMITER ',';
 
 docker cp /Users/ryanjyost/Projects/kevinbacon/movies.csv 08cbc57debdc:/var/lib/neo4j/import
@@ -90,7 +90,7 @@ LOAD CSV WITH HEADERS FROM 'file:///fake.csv' AS row WITH row.tconst as tconst, 
 
 apt-get update && apt-get install -y procps
 
-cd /Users/ryanjyost/Library/Application\ Support/Neo4j\ Desktop/Application/neo4jDatabases/database-e947ebf7-ac11-441a-9a93-67c15b239d67/installation-4.0.3
+cd /Users/ryanjyost/Library/Application\ Support/Neo4j\ Desktop/Application/neo4jDatabases/database-818b60b4-6e6f-4f15-ad25-e05348075146/installation-4.0.3
 
 MATCH (tom {name: "Tom Hanks"}) RETURN tom
 MATCH (cloudAtlas {title: "Cloud Atlas"}) RETURN cloudAtlas
